@@ -34,7 +34,7 @@
 
 <script>
   const boxWidth = 25;
-  const moveByPixel = 8;
+  const moveByPixel = 3;
   const ballWidth = 20;
   const tracker = document.getElementById('tracker');
   const ball = document.getElementById('ball');
@@ -80,7 +80,7 @@
         gameOver = true;
         alert('Game over');
       }
-    }, 50)
+    }, 10)
   }
 
   const moving = (e) => {
