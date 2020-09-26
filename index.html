@@ -1,19 +1,96 @@
 <html>
-<head></head>
+<head>
+
+<style>
+  body {
+    background-color: lightgray;
+    overflow: hidden;
+  }
+  #ball {
+    background-color: #94001f;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  #tracker {
+    background-color: blue;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+</style>
+
+</head>
+
 <body>
-  <div id='head'>helloworld</div>
+  <div id='ball'></div>
+  <div id='tracker'></div>
 </body>
 
 <script>
-  setTimeout(function() {
-  document.getElementById('head'). innerText = 'fish'
-
-
-    
-  }, 2 * 1000);
+  const boxWidth = 25;
+  const moveByPixel = 8;
+  const ballWidth = 20;
+  const tracker = document.getElementById('tracker');
+  const ball = document.getElementById('ball');
+  let goingDown = true;
+  const bodyHeight = document.body.clientHeight;
+  let boxX = 0;
+  let gameOver = false;
   
-  
+  const isTop = (y) => {
+    return y <= 0;
+  }
 
+  const isBottom = (y) => {
+    return y >= bodyHeight;
+  }
+
+  const ballUpdate= (x, y) => {
+    ball.style.left = x;
+    ball.style.top = y;
+  }
+
+  const isTouching = (ballX, ballY) => {
+    const yIsTouching = ballY + (ballWidth / 2) >= bodyHeight - boxWidth;
+    const xIsTouching = (
+      (ballX + (ballWidth / 2) >= boxX - (boxWidth / 2))
+      && (ballX - (ballWidth / 2) <= boxX + (boxWidth / 2))
+    )
+    return yIsTouching && xIsTouching;
+  }
+
+
+  const ballStart = () => {
+    let y = 0;
+    let x = 100;
+    setInterval(() => {
+      ballUpdate(x, y);
+      if (goingDown) y = y + moveByPixel;
+      else y = y - moveByPixel;
+      
+      if (isTouching(x, y)) goingDown = false;
+      if (isTop(y)) goingDown = true;
+      if (isBottom(y) && gameOver === false) {
+        gameOver = true;
+        alert('Game over');
+      }
+    }, 50)
+  }
+
+  const moving = (e) => {
+    const { clientX } = e;
+    boxX = clientX;
+    tracker.style.left = clientX - (boxWidth / 2);
+  }
+
+  window.addEventListener('mousemove', moving)
+  ballStart();
 </script>
 </html>
 
