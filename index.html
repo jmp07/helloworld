@@ -36,18 +36,30 @@
 </body>
 
 <script>
-  const boxWidth = 25;
-  const moveByPixel = 3;
-  const ballWidth = 20;
+  
+  let moveByPixel = 3;
+ 
   const tracker = document.getElementById('tracker');
+
   const ball = document.getElementById('ball');
+  const ballWidth =  ball.offsetWidth;
+  const boxWidth = tracker.offsetWidth;
   let goingDown = true;
   const bodyHeight = document.body.clientHeight;
   let boxX = 0;
   let gameOver = false;
+
+
+  const speedUp = () => {
+    setInterval(() => {
+     if (moveByPixel < 6) moveByPixel++ 
+    
+
+    }, 5 * 1000) 
+  }
   
   const isTop = (y) => {
-    return y <= 0;
+    return y <= ballWidth / 2;
   }
 
   const isBottom = (y) => {
@@ -55,8 +67,8 @@
   }
 
   const ballUpdate= (x, y) => {
-    ball.style.left = x;
-    ball.style.top = y;
+    ball.style.left = x - (ballWidth / 2);
+    ball.style.top = y - (ballWidth / 2)
   }
 
   const isTouching = (ballX, ballY) => {
@@ -94,6 +106,7 @@
 
   window.addEventListener('mousemove', moving)
   ballStart();
+  speedUp();
 </script>
 </html>
 
